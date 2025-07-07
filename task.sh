@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+# Load environment variables from .env if it exists
+if [ -f .env ]; then
+  set -o allexport
+  source .env
+  set +o allexport
+fi
+
 if [[ -z "$DOMAIN" || -z "$PORT" || -z "$CLOUDFLARE_API_TOKEN" || -z "$CNAME_TARGET" || -z "$CADDYFILE_PATH" ]]; then
   echo "Missing required environment variables."
   exit 1
@@ -53,5 +60,7 @@ fi
 # Reload Caddy
 echo "Reloading Caddy..."
 docker exec caddy caddy reload --config /etc/caddy/Caddyfile || echo "Warning: Failed to reload Caddy"
+docker exec caddy caddy fmt --overwrite /etc/caddy/Caddyfile
 
 echo "Task completed."
+exit 0

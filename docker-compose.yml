@@ -2,8 +2,14 @@ services:
   dns-task:
     build: .
     container_name: dns-caddy-task
-    env_file:
-      - .env
+    environment:
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
+      CNAME_TARGET: ${CNAME_TARGET}
+      DOMAIN: ${DOMAIN}
+      PORT: ${PORT}
+      CADDYFILE_PATH: ${CADDYFILE_PATH}
     volumes:
+      - /opt/stacks/caddy-ch/Caddyfile:/etc/caddy/Caddyfile
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
+    restart: no
+networks: {}

@@ -1,6 +1,10 @@
 FROM alpine:latest
-RUN apk add --no-cache curl bash jq
+
+# Install curl, bash, jq, and docker-cli
+RUN apk add --no-cache bash curl jq docker-cli
+
+COPY task.sh /app/task.sh
 WORKDIR /app
-COPY task.sh .
-RUN chmod +x task.sh
+
+#ENTRYPOINT ["bash", "/app/task.sh"]
 CMD ["./task.sh"]
