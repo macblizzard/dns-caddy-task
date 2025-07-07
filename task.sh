@@ -47,7 +47,7 @@ if grep -q "$DOMAIN" "$CADDYFILE_PATH"; then
   echo "Caddyfile already contains configuration for $DOMAIN"
 else
   echo "Appending to Caddyfile for $DOMAIN..."
-  echo -e "\n$DOMAIN {\n    reverse_proxy 172.17.0.1:$PORT\n}" >> "$CADDYFILE_PATH"
+  echo -e "\n$DOMAIN {\n    import cloudflare\n    reverse_proxy 172.17.0.1:$PORT\n}" >> "$CADDYFILE_PATH"
 fi
 
 # Reload Caddy
